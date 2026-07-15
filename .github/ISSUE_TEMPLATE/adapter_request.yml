@@ -1,0 +1,26 @@
+name: Adapter request
+description: Ask for support for another eval runner's results format
+labels: [adapter, enhancement]
+body:
+  - type: input
+    id: runner
+    attributes:
+      label: Eval runner
+      description: Name and link of the tool whose output you want statgate to read.
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Sample output
+      description: >-
+        A small, sanitized sample of the results file the runner produces.
+        Include how case identity and pass/score information appear in it.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything unusual about the format (multiple runs, nested suites, streaming output).

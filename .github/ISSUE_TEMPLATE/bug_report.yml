@@ -1,0 +1,34 @@
+name: Bug report
+description: Something behaved incorrectly
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: statgate version
+      description: Output of `statgate --version`
+      placeholder: statgate, version 0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: The exact command you ran and what it printed, including the exit code.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal results file
+      description: >-
+        If possible, a few lines of a results file that reproduce the issue.
+        If the data is sensitive, the output of `statgate validate` on it is
+        a good start.

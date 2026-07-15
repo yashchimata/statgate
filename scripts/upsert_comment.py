@@ -39,6 +39,47 @@ def _pull_number(event: dict) -> int | None:
     return None
 
 
+def _find_existing(comments_url: str, token: str) -> int | None:
+    page = 1
+    while True:
+        comments = _request("GET", f"{comments_url}?per_page=100&page={page}", token)
+        if not isinstance(comments, list) or not comments:
+            return None
+        for comment in comments:
+            if MARKER in comment.get("body", ""):
+                return int(comment["id"])
+        page += 1
+
+
+def _upsert(repository: str, number: int, token: str, body: str) -> None:
+    comments_url = f"{API_ROOT}/repos/{repository}/issues/{number}/comments"
+    existing_id = _find_existing(comments_url, token)
+    if existing_id is not None:
+        _request(
+            "PATCH",
+            f"{API_ROOT}/repos/{repository}/issues/comments/{existing_id}",
+            token,
+            {"body": body},
+        )
+        print(f"updated comment {existing_id} on PR #{number}")
+    else:
+        created = _request("POST", comments_url, token, {"body": body})
+        comment_id = created.get("id") if isinstance(created, dict) else "unknown"
+        print(f"created comment {comment_id} on PR #{number}")
+
+
+def _warn_http(exc: urllib.error.HTTPError) -> None:
+    detail = exc.read().decode("utf-8", errors="replace")
+    print(f"warning: GitHub API error {exc.code}: {detail}", file=sys.stderr)
+    if exc.code in (401, 403, 404):
+        print(
+            "warning: could not post the comment (token lacks pull-requests: write, "
+            "which is expected on pull requests from forks); the verdict is still "
+            "enforced and the report is in the job summary",
+            file=sys.stderr,
+        )
+
+
 def main() -> int:
     if len(sys.argv) != 2:
         print("usage: upsert_comment.py <report-file>", file=sys.stderr)
@@ -69,46 +110,12 @@ def main() -> int:
         print("not a pull request event; skipping comment", file=sys.stderr)
         return 0
 
-    comments_url = f"{API_ROOT}/repos/{repository}/issues/{number}/comments"
     try:
-        page = 1
-        existing_id = None
-        while existing_id is None:
-            comments = _request("GET", f"{comments_url}?per_page=100&page={page}", token)
-            if not isinstance(comments, list) or not comments:
-                break
-            for comment in comments:
-                if MARKER in comment.get("body", ""):
-                    existing_id = comment["id"]
-                    break
-            page += 1
-
-        if existing_id is not None:
-            _request(
-                "PATCH",
-                f"{API_ROOT}/repos/{repository}/issues/comments/{existing_id}",
-                token,
-                {"body": body},
-            )
-            print(f"updated comment {existing_id} on PR #{number}")
-        else:
-            created = _request("POST", comments_url, token, {"body": body})
-            comment_id = created.get("id") if isinstance(created, dict) else "unknown"
-            print(f"created comment {comment_id} on PR #{number}")
+        _upsert(repository, number, token, body)
     except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        print(f"warning: GitHub API error {exc.code}: {detail}", file=sys.stderr)
-        if exc.code in (401, 403, 404):
-            print(
-                "warning: could not post the comment (token lacks pull-requests: write, "
-                "which is expected on pull requests from forks); the verdict is still "
-                "enforced and the report is in the job summary",
-                file=sys.stderr,
-            )
-        return 0
+        _warn_http(exc)
     except urllib.error.URLError as exc:
         print(f"warning: could not reach the GitHub API: {exc.reason}", file=sys.stderr)
-        return 0
     return 0
 
 

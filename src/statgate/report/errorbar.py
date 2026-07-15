@@ -13,9 +13,12 @@ def _column(value: float, axis_low: float, axis_high: float, width: int) -> int:
 
 def _place_label(row: list[str], column: int, label: str, width: int) -> None:
     start = min(max(0, column - len(label) // 2), width - len(label))
+    span_start = max(0, start - 1)
+    span_stop = min(width, start + len(label) + 1)
+    if any(row[i] != " " for i in range(span_start, span_stop)):
+        return
     for offset, char in enumerate(label):
-        if row[start + offset] == " ":
-            row[start + offset] = char
+        row[start + offset] = char
 
 
 def render_error_bar(
