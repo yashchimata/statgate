@@ -1,0 +1,14 @@
+{
+  "test_results": [
+    {
+      "name": "faithfulness",
+      "success": true,
+      "score": 0.9
+    },
+    {
+      "name": "relevancy",
+      "success": false,
+      "score": 0.2
+    }
+  ]
+}
