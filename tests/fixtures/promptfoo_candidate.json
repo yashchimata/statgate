@@ -1,0 +1,18 @@
+{
+  "evalId": "eval-candidate-001",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-07-02T10:00:00.000Z",
+    "prompts": [{ "raw": "Answer carefully: {{question}}", "label": "v2" }],
+    "results": [
+      { "testIdx": 0, "promptIdx": 0, "success": true, "score": 0.95, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q0" } },
+      { "testIdx": 1, "promptIdx": 0, "success": true, "score": 0.85, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q1" } },
+      { "testIdx": 2, "promptIdx": 0, "success": true, "score": 0.6, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q2" } },
+      { "testIdx": 3, "promptIdx": 0, "success": true, "score": 0.75, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q3" } },
+      { "testIdx": 4, "promptIdx": 0, "success": false, "score": 0.35, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q4" } },
+      { "testIdx": 5, "promptIdx": 0, "success": true, "score": 0.9, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q5" } },
+      { "testIdx": 6, "promptIdx": 0, "success": true, "score": 0.8, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q6" } },
+      { "testIdx": 7, "promptIdx": 0, "success": true, "score": 0.55, "provider": { "id": "openai:gpt-4.1" }, "vars": { "question": "q7" } }
+    ]
+  }
+}

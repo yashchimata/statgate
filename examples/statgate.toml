@@ -1,0 +1,12 @@
+[gate]
+metric = "score"
+alpha = 0.05
+margin = 0.02
+power = 0.8
+resamples = 10000
+permutations = 10000
+seed = 42
+
+[sequential]
+batch_size = 25
+max_cases = 400

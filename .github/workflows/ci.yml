@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --quiet -e ".[dev]"
+      - run: ruff check src tests
+      - run: mypy src
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.11", "3.12", "3.13"]
+        include:
+          - os: windows-latest
+            python-version: "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --quiet -e ".[dev]"
+      - run: pytest
+
+  gate-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run statgate action on example data
+        id: demo
+        uses: ./
+        with:
+          baseline: examples/baseline.jsonl
+          candidate: examples/candidate.jsonl
+          comment: "false"
+      - name: Show verdict
+        run: echo "demo verdict was ${{ steps.demo.outputs.verdict }}"
