@@ -193,6 +193,13 @@ when we are confident the candidate is more than 2 points worse". A margin
 of zero demands proof of strict improvement, which small suites can rarely
 provide. Full reference in [docs/configuration.md](docs/configuration.md).
 
+## Works well with judgegate
+
+statgate trusts whatever scores your evals produce. When those scores come
+from an LLM judge, [judgegate](https://github.com/yashchimata/judgegate)
+verifies the judge itself against human labels before you gate on it.
+Together they cover both halves of trusting an eval pipeline.
+
 ## How the statistics work
 
 Short version: per-case paired differences, a BCa bootstrap confidence
