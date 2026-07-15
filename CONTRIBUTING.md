@@ -45,6 +45,26 @@ All three must pass. CI runs the test suite on Linux across Python 3.11 to
 - Exit codes are a contract: 0 SHIP, 1 BLOCK, 2 INCONCLUSIVE, 3 error.
   Nothing may repurpose them.
 
+## How changes land
+
+The `main` branch is protected. Every change, including from the
+maintainer, is expected to arrive as a pull request that:
+
+1. passes all required CI checks (lint, the full test matrix, and the
+   action smoke test),
+2. is approved by a code owner (currently @yashchimata), and
+3. lands as a squash merge, keeping history linear.
+
+Force pushes and branch deletion on `main` are disabled. Release tags
+(`v*`) cannot be deleted or moved. Workflows run with read-only tokens
+unless a job explicitly requests more, and publishing to PyPI requires a
+manual approval on the `pypi` environment on top of CI.
+
+First-time contributors will see "workflow awaiting approval" on their
+pull request; a maintainer approves the run after a quick look at the
+diff. This is a standard defense for public repositories, not a judgment
+of your change.
+
 ## Reporting bugs
 
 Include the statgate version (`statgate --version`), the command you ran,

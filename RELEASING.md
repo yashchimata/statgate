@@ -33,6 +33,9 @@ so no API tokens are stored anywhere.
    which builds the sdist and wheel and uploads them to PyPI. The
    workflow can also be started manually from the Actions tab
    (workflow_dispatch), or re-run if the PyPI side was not ready yet.
+   The `pypi` environment requires a manual approval: GitHub will show a
+   "Review deployments" button on the run, and the publish job starts
+   only after the maintainer approves it.
 5. Verify with `pip install statgate==X.Y.Z` in a fresh environment.
 
 ## Regenerating README screenshots
