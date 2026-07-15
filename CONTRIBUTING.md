@@ -65,6 +65,14 @@ pull request; a maintainer approves the run after a quick look at the
 diff. This is a standard defense for public repositories, not a judgment
 of your change.
 
+## License of contributions
+
+statgate is MIT licensed. By submitting a pull request you agree that
+your contribution is provided under the same MIT license as the project
+(the usual inbound equals outbound norm, also reflected in GitHub's
+Terms of Service). You keep the copyright to your work; no copyright
+assignment or CLA is required.
+
 ## Reporting bugs
 
 Include the statgate version (`statgate --version`), the command you ran,
