@@ -98,7 +98,7 @@ jobs:
       - uses: actions/checkout@v7
       - name: Run evals
         run: ./run_evals.sh   # produces baseline.jsonl and candidate.jsonl
-      - uses: yashchimata/statgate@v0.1.0
+      - uses: yashchimata/statgate@v0.1.1
         with:
           baseline: baseline.jsonl
           candidate: candidate.jsonl

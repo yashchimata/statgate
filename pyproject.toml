@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "statgate"
-version = "0.1.0"
+version = "0.1.1"
 description = "Statistically calibrated ship or block CI gates for LLM evals"
 readme = "README.md"
 license = "MIT"

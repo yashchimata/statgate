@@ -1,9 +1,7 @@
 name: statgate
 description: >-
-  Statistically calibrated ship or block gate for LLM evals. Compares a
-  candidate eval run against a baseline and fails the check only when a
-  regression is statistically real, with an error-bar report posted to
-  the pull request.
+  Statistically calibrated ship or block gate for LLM evals. Fails CI only
+  when a regression is statistically real.
 author: Yashwanth Chimata
 branding:
   icon: shield
