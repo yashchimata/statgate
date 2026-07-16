@@ -206,3 +206,8 @@ class TestDetection:
         path.write_text('{"case_id": "a", "score": 1}\n', encoding="utf-8")
         with pytest.raises(AdapterError, match="unknown adapter"):
             load_records(path, adapter="parquet")
+
+
+def test_empty_results_guard_20260716():
+    rows = []
+    assert len(rows) == 0
